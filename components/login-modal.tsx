@@ -22,16 +22,20 @@ export function LoginModal({
   return (
     <>
       <div
-        className="fixed inset-0 z-50 bg-background/80 animate-fade-in"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
-        className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-6 shadow-2xl animate-scale-in sm:p-8"
-        role="dialog"
-        aria-modal="true"
-        aria-label={isRegister ? "Registro" : "Iniciar sesion"}
+        className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
       >
+        <div
+          className="pointer-events-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl animate-scale-in sm:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label={isRegister ? "Registro" : "Iniciar sesion"}
+          onClick={(e) => e.stopPropagation()}
+        >
         <div className="mb-5 flex items-center justify-between">
           <div>
             <h2 className="font-display text-xl font-bold text-foreground">
@@ -124,6 +128,7 @@ export function LoginModal({
               ? "Ya tenes cuenta? Inicia sesion"
               : "No tenes cuenta? Registrate"}
           </button>
+        </div>
         </div>
       </div>
     </>

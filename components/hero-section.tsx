@@ -11,7 +11,7 @@ const stats = [
   { value: "24hs", label: "Envio express" },
 ]
 
-export function HeroSection({ onBuilderOpen }: { onBuilderOpen: () => void }) {
+export function HeroSection() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -68,13 +68,15 @@ export function HeroSection({ onBuilderOpen }: { onBuilderOpen: () => void }) {
             </a>
           </Button>
           <Button
+            asChild
             size="lg"
             variant="outline"
             className="gap-2 border-primary/40 bg-primary/10 font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
-            onClick={onBuilderOpen}
           >
-            <Cpu className="h-4 w-4" aria-hidden="true" />
-            Arma tu PC
+            <a href="#arma-tu-pc">
+              <Cpu className="h-4 w-4" aria-hidden="true" />
+              Arma tu PC
+            </a>
           </Button>
           <Button asChild variant="outline" size="lg" className="font-semibold border-border text-foreground hover:bg-secondary bg-transparent">
             <a href="#vende">Vende tu Hardware</a>

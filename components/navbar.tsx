@@ -12,12 +12,10 @@ export function Navbar({
   onSearchChange,
   onLoginOpen,
   searchValue,
-  onBuilderOpen,
 }: {
   onSearchChange: (value: string) => void
   onLoginOpen: () => void
   searchValue: string
-  onBuilderOpen: () => void
 }) {
   const { totalItems, setIsOpen } = useCart()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -48,25 +46,29 @@ export function Navbar({
           {[
             { label: "Inicio", href: "#inicio" },
             { label: "Productos", href: "#productos" },
+            { label: "Arma tu PC", href: "#arma-tu-pc" },
             { label: "Vende tu Hardware", href: "#vende" },
             { label: "Contacto", href: "#contacto" },
-          ].map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors duration-150 hover:text-primary"
-            >
-              {link.label}
-            </a>
-          ))}
-          <button
-            type="button"
-            onClick={onBuilderOpen}
-            className="flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary transition-colors duration-150 hover:bg-primary hover:text-primary-foreground"
-          >
-            <Cpu className="h-4 w-4" aria-hidden="true" />
-            Arma tu PC
-          </button>
+          ].map((link) =>
+            link.label === "Arma tu PC" ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary transition-colors duration-150 hover:bg-primary hover:text-primary-foreground"
+              >
+                <Cpu className="h-4 w-4" aria-hidden="true" />
+                {link.label}
+              </a>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground transition-colors duration-150 hover:text-primary"
+              >
+                {link.label}
+              </a>
+            )
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -151,14 +153,14 @@ export function Navbar({
               </li>
             ))}
             <li>
-              <button
-                type="button"
-                onClick={() => { onBuilderOpen(); setMobileMenuOpen(false) }}
+              <a
+                href="#arma-tu-pc"
+                onClick={() => setMobileMenuOpen(false)}
                 className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary transition-colors duration-150 hover:bg-primary/10"
               >
                 <Cpu className="h-4 w-4" aria-hidden="true" />
                 Arma tu PC
-              </button>
+              </a>
             </li>
           </ul>
         </div>
