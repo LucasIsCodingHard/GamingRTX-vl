@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { X, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -14,21 +14,25 @@ export function LoginModal({
   const [isRegister, setIsRegister] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
+  const toggleMode = useCallback(() => setIsRegister((v) => !v), [])
+  const togglePassword = useCallback(() => setShowPassword((v) => !v), [])
+
   if (!isOpen) return null
 
   return (
     <>
       <div
-        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in"
+        className="fixed inset-0 z-50 bg-background/80 animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
-        className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-8 shadow-2xl animate-scale-in"
+        className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-6 shadow-2xl animate-scale-in sm:p-8"
         role="dialog"
+        aria-modal="true"
         aria-label={isRegister ? "Registro" : "Iniciar sesion"}
       >
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-5 flex items-center justify-between">
           <div>
             <h2 className="font-display text-xl font-bold text-foreground">
               {isRegister ? "Crear Cuenta" : "Iniciar Sesion"}
@@ -51,49 +55,52 @@ export function LoginModal({
         </div>
 
         <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            onClose()
-          }}
+          onSubmit={(e) => { e.preventDefault(); onClose() }}
           className="space-y-4"
         >
           {isRegister && (
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-foreground">
+              <label htmlFor="login-name" className="mb-1.5 block text-sm font-medium text-foreground">
                 Nombre completo
               </label>
               <input
+                id="login-name"
                 type="text"
                 placeholder="Tu nombre"
+                autoComplete="name"
                 className="h-10 w-full rounded-lg border border-border bg-secondary px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
           )}
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-foreground">
               Email
             </label>
             <input
+              id="login-email"
               type="email"
               placeholder="tu@email.com"
+              autoComplete="email"
               className="h-10 w-full rounded-lg border border-border bg-secondary px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor="login-password" className="mb-1.5 block text-sm font-medium text-foreground">
               Contrasena
             </label>
             <div className="relative">
               <input
+                id="login-password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Tu contrasena"
+                autoComplete={isRegister ? "new-password" : "current-password"}
                 className="h-10 w-full rounded-lg border border-border bg-secondary px-3 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={togglePassword}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
               >
@@ -107,10 +114,11 @@ export function LoginModal({
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-5 text-center">
           <button
-            onClick={() => setIsRegister(!isRegister)}
-            className="text-sm text-muted-foreground transition-colors hover:text-primary"
+            type="button"
+            onClick={toggleMode}
+            className="text-sm text-muted-foreground transition-colors duration-150 hover:text-primary"
           >
             {isRegister
               ? "Ya tenes cuenta? Inicia sesion"

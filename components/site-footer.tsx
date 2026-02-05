@@ -27,10 +27,11 @@ export function SiteFooter() {
             <a href="#inicio" className="flex items-center gap-2.5">
               <Image
                 src="/images/logo-gamingrtx.jpg"
-                alt="gamingRTX logo"
+                alt=""
                 width={36}
                 height={36}
                 className="rounded-lg"
+                loading="lazy"
               />
               <span className="font-display text-xl font-bold tracking-wide text-foreground">
                 gaming<span className="text-primary">RTX</span>

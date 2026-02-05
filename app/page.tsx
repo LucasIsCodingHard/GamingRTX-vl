@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, lazy, Suspense } from "react"
 import { CartProvider } from "@/lib/cart-context"
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
@@ -9,7 +9,10 @@ import { CartDrawer } from "@/components/cart-drawer"
 import { LoginModal } from "@/components/login-modal"
 import { SellSection } from "@/components/sell-section"
 import { SiteFooter } from "@/components/site-footer"
-import { PcBuilder } from "@/components/pc-builder"
+
+const PcBuilder = lazy(() =>
+  import("@/components/pc-builder").then((m) => ({ default: m.PcBuilder }))
+)
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -33,7 +36,11 @@ export default function Page() {
         <SiteFooter />
         <CartDrawer />
         <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
-        <PcBuilder isOpen={builderOpen} onClose={() => setBuilderOpen(false)} />
+        {builderOpen && (
+          <Suspense fallback={null}>
+            <PcBuilder isOpen={builderOpen} onClose={() => setBuilderOpen(false)} />
+          </Suspense>
+        )}
       </div>
     </CartProvider>
   )

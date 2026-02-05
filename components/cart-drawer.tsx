@@ -13,23 +13,19 @@ export function CartDrawer() {
 
   return (
     <>
-      {/* Overlay */}
       <div
-        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in"
+        className="fixed inset-0 z-50 bg-background/80 animate-fade-in"
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
-
-      {/* Drawer */}
       <aside
         className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-card shadow-2xl animate-slide-in-right"
         role="dialog"
         aria-label="Carrito de compras"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-primary" />
+            <ShoppingBag className="h-5 w-5 text-primary" aria-hidden="true" />
             <h2 className="font-display text-lg font-bold text-foreground">Carrito</h2>
           </div>
           <Button
@@ -43,28 +39,31 @@ export function CartDrawer() {
           </Button>
         </div>
 
-        {/* Items */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-5">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <ShoppingBag className="mb-4 h-12 w-12 text-muted-foreground/40" />
+              <ShoppingBag className="mb-4 h-12 w-12 text-muted-foreground/40" aria-hidden="true" />
               <p className="font-semibold text-foreground">Tu carrito esta vacio</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Agrega productos para comenzar
               </p>
             </div>
           ) : (
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {items.map(({ product, quantity }) => (
                 <li
                   key={product.id}
-                  className="flex gap-4 rounded-xl border border-border bg-secondary/50 p-3"
+                  className="flex gap-3 rounded-xl border border-border bg-secondary/50 p-3"
                 >
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary">
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-secondary">
+                    {/* Use native img for small thumbnails - avoids Next/Image overhead */}
                     <img
                       src={product.image || "/placeholder.svg"}
-                      alt={product.name}
+                      alt=""
                       className="h-full w-full object-cover"
+                      loading="lazy"
+                      width={64}
+                      height={64}
                     />
                   </div>
                   <div className="flex flex-1 flex-col">
@@ -83,7 +82,7 @@ export function CartDrawer() {
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
-                        <span className="w-8 text-center text-sm font-medium text-foreground">
+                        <span className="w-7 text-center text-sm font-medium text-foreground">
                           {quantity}
                         </span>
                         <Button
@@ -113,9 +112,8 @@ export function CartDrawer() {
           )}
         </div>
 
-        {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-border p-6">
+          <div className="border-t border-border p-5">
             <div className="mb-4 flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Total</span>
               <span className="font-display text-xl font-bold text-foreground">
