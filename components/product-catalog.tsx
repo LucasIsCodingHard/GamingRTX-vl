@@ -5,6 +5,7 @@ import { SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { products, categories } from "@/lib/products"
 import { ProductCard } from "./product-card"
+import { CategoriesCarousel } from "./categories-carousel"
 
 export function ProductCatalog({ searchQuery }: { searchQuery: string }) {
   const [selectedCategory, setSelectedCategory] = useState("Todos")
@@ -40,117 +41,98 @@ export function ProductCatalog({ searchQuery }: { searchQuery: string }) {
   }, [selectedCategory, condition, searchQuery, sortBy])
 
   return (
-    <section id="productos" className="mx-auto max-w-7xl px-4 py-16">
-      <div className="mb-8 flex items-end justify-between">
-        <div>
-          <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-            Nuestros Productos
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {filtered.length} producto{filtered.length !== 1 ? "s" : ""} disponible
-            {filtered.length !== 1 ? "s" : ""}
-          </p>
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2 border-border text-foreground md:hidden bg-transparent"
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <SlidersHorizontal className="h-4 w-4" />
-          Filtros
-        </Button>
+    <section id="productos" className="py-16">
+      {/* Section title */}
+      <div className="mx-auto max-w-7xl px-4">
+        <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
+          Nuestros Productos
+        </h2>
+        <p className="mt-2 text-muted-foreground">
+          Encontra el hardware perfecto para tu setup
+        </p>
       </div>
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Sidebar filters */}
-        <aside
-          className={`shrink-0 lg:w-56 ${showFilters ? "block" : "hidden"} lg:block`}
-        >
-          <div className="space-y-6 rounded-xl border border-border bg-card p-4">
-            {/* Categories */}
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Categorias
-              </h3>
-              <div className="flex flex-col gap-1">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
-                      selectedCategory === cat
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
+      {/* Categories carousel */}
+      <div className="mt-8">
+        <CategoriesCarousel
+          onCategorySelect={setSelectedCategory}
+          activeCategory={selectedCategory}
+        />
+      </div>
 
-            {/* Condition */}
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Estado
-              </h3>
-              <div className="flex flex-col gap-1">
-                {([
-                  ["todos", "Todos"],
-                  ["nuevo", "Nuevos"],
-                  ["usado", "Usados"],
-                ] as const).map(([val, label]) => (
-                  <button
-                    key={val}
-                    onClick={() => setCondition(val)}
-                    className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
-                      condition === val
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Sort */}
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Ordenar por
-              </h3>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option value="default">Relevancia</option>
-                <option value="price-asc">Menor precio</option>
-                <option value="price-desc">Mayor precio</option>
-              </select>
-            </div>
+      {/* Filter bar */}
+      <div className="mx-auto mt-6 max-w-7xl px-4">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-card p-3">
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground">Filtros:</span>
           </div>
-        </aside>
 
-        {/* Product grid */}
-        <div className="flex-1">
-          {filtered.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-20">
-              <p className="text-lg font-semibold text-foreground">No se encontraron productos</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Intenta con otros filtros o busca algo diferente
-              </p>
-            </div>
-          )}
+          {/* Condition toggles */}
+          <div className="flex gap-1 rounded-lg bg-secondary p-1">
+            {([
+              ["todos", "Todos"],
+              ["nuevo", "Nuevos"],
+              ["usado", "Usados"],
+            ] as const).map(([val, label]) => (
+              <button
+                key={val}
+                onClick={() => setCondition(val)}
+                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
+                  condition === val
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="ml-auto rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="default">Relevancia</option>
+            <option value="price-asc">Menor precio</option>
+            <option value="price-desc">Mayor precio</option>
+          </select>
+
+          <span className="text-xs text-muted-foreground">
+            {filtered.length} resultado{filtered.length !== 1 ? "s" : ""}
+          </span>
         </div>
+      </div>
+
+      {/* Product grid */}
+      <div className="mx-auto mt-6 max-w-7xl px-4">
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filtered.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-20">
+            <p className="text-lg font-semibold text-foreground">No se encontraron productos</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Intenta con otros filtros o busca algo diferente
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-4 border-border bg-transparent text-foreground"
+              onClick={() => {
+                setSelectedCategory("Todos")
+                setCondition("todos")
+              }}
+            >
+              Limpiar filtros
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   )

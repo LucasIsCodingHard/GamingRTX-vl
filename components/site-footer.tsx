@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { MapPin, Phone, Mail } from "lucide-react"
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -23,11 +24,15 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <a href="#inicio" className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <span className="font-display text-sm font-bold text-primary-foreground">RTX</span>
-              </div>
-              <span className="font-display text-lg font-bold tracking-wider text-foreground">
+            <a href="#inicio" className="flex items-center gap-2.5">
+              <Image
+                src="/images/logo-gamingrtx.jpg"
+                alt="gamingRTX logo"
+                width={36}
+                height={36}
+                className="rounded-lg"
+              />
+              <span className="font-display text-xl font-bold tracking-wide text-foreground">
                 gaming<span className="text-primary">RTX</span>
               </span>
             </a>

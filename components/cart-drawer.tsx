@@ -15,14 +15,14 @@ export function CartDrawer() {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in"
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
 
       {/* Drawer */}
       <aside
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-card shadow-2xl"
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-card shadow-2xl animate-slide-in-right"
         role="dialog"
         aria-label="Carrito de compras"
       >

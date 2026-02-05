@@ -1,11 +1,11 @@
 import React from "react"
 import type { Metadata, Viewport } from 'next'
-import { Inter, Orbitron } from 'next/font/google'
+import { Space_Grotesk, Rajdhani } from 'next/font/google'
 
 import './globals.css'
 
-const _inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const _orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron' })
+const _spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
+const _rajdhani = Rajdhani({ weight: ['400', '500', '600', '700'], subsets: ['latin'], variable: '--font-rajdhani' })
 
 export const metadata: Metadata = {
   title: 'gamingRTX - PCs Armadas y Componentes Gaming',

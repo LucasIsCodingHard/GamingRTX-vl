@@ -9,10 +9,12 @@ import { CartDrawer } from "@/components/cart-drawer"
 import { LoginModal } from "@/components/login-modal"
 import { SellSection } from "@/components/sell-section"
 import { SiteFooter } from "@/components/site-footer"
+import { PcBuilder } from "@/components/pc-builder"
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState("")
   const [loginOpen, setLoginOpen] = useState(false)
+  const [builderOpen, setBuilderOpen] = useState(false)
 
   return (
     <CartProvider>
@@ -21,15 +23,17 @@ export default function Page() {
           searchValue={searchQuery}
           onSearchChange={setSearchQuery}
           onLoginOpen={() => setLoginOpen(true)}
+          onBuilderOpen={() => setBuilderOpen(true)}
         />
         <main className="flex-1">
-          <HeroSection />
+          <HeroSection onBuilderOpen={() => setBuilderOpen(true)} />
           <ProductCatalog searchQuery={searchQuery} />
           <SellSection />
         </main>
         <SiteFooter />
         <CartDrawer />
         <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
+        <PcBuilder isOpen={builderOpen} onClose={() => setBuilderOpen(false)} />
       </div>
     </CartProvider>
   )
